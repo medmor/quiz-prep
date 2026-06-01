@@ -412,6 +412,68 @@ body {
   padding: 16px;
 }
 
+/* About View */
+#view-about h2 {
+  margin: 0 0 16px;
+  font-size: 1.3rem;
+}
+
+.about-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.about-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.about-section p {
+  font-size: 0.9rem;
+  line-height: 1.8;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+.about-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px;
+}
+
+.about-section li {
+  font-size: 0.85rem;
+  line-height: 1.7;
+  padding: 4px 0;
+  padding-right: 20px;
+  position: relative;
+  color: var(--text-secondary);
+}
+
+.about-section li::before {
+  content: '•';
+  position: absolute;
+  right: 0;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.about-warning {
+  background: #FEF3C7;
+  border: 1px solid #F59E0B;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: #92400E;
+  text-align: right;
+}
+
 /* FAB */
 .fab {
   position: fixed;

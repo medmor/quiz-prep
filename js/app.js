@@ -356,6 +356,17 @@
     document.getElementById('view-quiz').classList.add('active');
   }
 
+  function showAbout() {
+    closeMenu();
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-about').classList.add('active');
+  }
+
+  function backFromAbout() {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-quiz').classList.add('active');
+  }
+
   // --- Menu ---
   function openMenu() {
     updateHeader();
@@ -376,6 +387,8 @@
     document.getElementById('btn-reset-progress').addEventListener('click', resetProgress);
     document.getElementById('btn-stats').addEventListener('click', showStats);
     document.getElementById('btn-back-stats').addEventListener('click', backFromStats);
+    document.getElementById('btn-about').addEventListener('click', showAbout);
+    document.getElementById('btn-back-about').addEventListener('click', backFromAbout);
     document.getElementById('btn-restart').addEventListener('click', resetProgress);
 
     // Close menu on overlay click
