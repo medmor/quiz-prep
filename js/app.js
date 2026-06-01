@@ -4,6 +4,7 @@
 
   // --- Config ---
   const STORAGE_KEY = 'quiz-progress';
+  const TYPO_KEY = 'quiz-typos';
   const TOTAL_QUESTIONS = 1022;
 
   // --- Data ---
@@ -17,6 +18,8 @@
   let quizMode = 'sequential'; // sequential, weak
   let currentStreak = 0;
   let answered = false;
+  let flaggedTypos = loadTypos();
+  let typoJustFlagged = false;
 
   // --- Init ---
   async function init() {
@@ -47,6 +50,39 @@
 
   function saveProgress() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+  }
+
+  // --- Typos ---
+  function loadTypos() {
+    try {
+      const data = localStorage.getItem(TYPO_KEY);
+      return data ? JSON.parse(data) : [];
+    } catch(e) { return []; }
+  }
+
+  function saveTypos() {
+    localStorage.setItem(TYPO_KEY, JSON.stringify(flaggedTypos));
+  }
+
+  function flagTypo(num) {
+    if (!flaggedTypos.includes(num)) {
+      flaggedTypos.push(num);
+      saveTypos();
+    }
+  }
+
+  function unflagTypo(num) {
+    flaggedTypos = flaggedTypos.filter(n => n !== num);
+    saveTypos();
+  }
+
+  function exportTypos() {
+    const text = flaggedTypos.sort((a,b) => a-b).join(', ');
+    navigator.clipboard.writeText(text).then(() => {
+      alert('تم نسخ أرقام الأسئلة: ' + text);
+    }).catch(() => {
+      prompt('نسخ أرقام الأسئلة:', text);
+    });
   }
 
   function recordAnswer(num, correct) {
@@ -161,6 +197,18 @@
 
     const weakDesc = document.getElementById('weak-desc');
     weakDesc.textContent = `${getWrongQuestions().length} أسئلة خاطئة`;
+
+    // Update typo button state
+    const typoBtn = document.getElementById('btn-typo');
+    if (typoBtn && currentQuestion) {
+      if (flaggedTypos.includes(currentQuestion.num)) {
+        typoBtn.classList.add('typped');
+        typoBtn.textContent = '✏️ تم التعليم';
+      } else {
+        typoBtn.classList.remove('typped');
+        typoBtn.textContent = '✏️ خطأ مطبعي';
+      }
+    }
   }
 
   function showNextQuestion() {
@@ -236,6 +284,19 @@
     });
 
     answered = false;
+    typoJustFlagged = false;
+
+    // Reset typo button
+    const typoBtn = document.getElementById('btn-typo');
+    if (typoBtn) {
+      if (flaggedTypos.includes(currentQuestion.num)) {
+        typoBtn.classList.add('typped');
+        typoBtn.textContent = '✏️ تم التعليم';
+      } else {
+        typoBtn.classList.remove('typped');
+        typoBtn.textContent = '✏️ خطأ مطبعي';
+      }
+    }
   }
 
   function handleAnswer(selected) {
@@ -346,6 +407,32 @@
       }
     }
 
+    // Typo list
+    const typoList = document.getElementById('typo-list');
+    const exportBtn = document.getElementById('btn-export-typos');
+    typoList.innerHTML = '';
+    if (flaggedTypos.length === 0) {
+      typoList.innerHTML = '<div class="no-data">لم تعلم عن أي خطأ مطبعي بعد</div>';
+      exportBtn.style.display = 'none';
+    } else {
+      exportBtn.style.display = 'inline-block';
+      flaggedTypos.sort((a,b) => a-b).forEach(num => {
+        const q = allQuestions.find(q => q.num === num);
+        const div = document.createElement('div');
+        div.className = 'typo-item';
+        div.innerHTML = `<span class="typo-num">س${num}</span><span>${q ? q.question.substring(0, 50) + '...' : ''}</span><button class="typo-remove" data-num="${num}">✕</button>`;
+        typoList.appendChild(div);
+      });
+      // Add remove handlers
+      typoList.querySelectorAll('.typo-remove').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const num = parseInt(e.target.dataset.num);
+          unflagTypo(num);
+          showStats(); // Refresh
+        });
+      });
+    }
+
     closeMenu();
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.getElementById('view-stats').classList.add('active');
@@ -365,6 +452,25 @@
   function backFromAbout() {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.getElementById('view-quiz').classList.add('active');
+  }
+
+  function handleTypoFlag() {
+    if (!currentQuestion) return;
+    const num = currentQuestion.num;
+    if (flaggedTypos.includes(num)) {
+      unflagTypo(num);
+    } else {
+      flagTypo(num);
+    }
+    // Update button state
+    const typoBtn = document.getElementById('btn-typo');
+    if (flaggedTypos.includes(num)) {
+      typoBtn.classList.add('typped');
+      typoBtn.textContent = '✏️ تم التعليم';
+    } else {
+      typoBtn.classList.remove('typped');
+      typoBtn.textContent = '✏️ خطأ مطبعي';
+    }
   }
 
   // --- Menu ---
@@ -389,6 +495,8 @@
     document.getElementById('btn-back-stats').addEventListener('click', backFromStats);
     document.getElementById('btn-about').addEventListener('click', showAbout);
     document.getElementById('btn-back-about').addEventListener('click', backFromAbout);
+    document.getElementById('btn-typo').addEventListener('click', handleTypoFlag);
+    document.getElementById('btn-export-typos').addEventListener('click', exportTypos);
     document.getElementById('btn-restart').addEventListener('click', resetProgress);
 
     // Close menu on overlay click

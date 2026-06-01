@@ -32,7 +32,10 @@
       <div id="quiz-feedback" class="hidden">
         <div id="feedback-icon"></div>
         <div id="feedback-text"></div>
-        <button id="btn-next">السؤال التالي ←</button>
+        <div id="feedback-actions">
+          <button id="btn-next">السؤال التالي ←</button>
+          <button id="btn-typo" class="btn-typo">✏️ خطأ مطبعي</button>
+        </div>
       </div>
       <div id="quiz-complete" class="hidden">
         <div id="complete-emoji">🎉</div>
@@ -109,6 +112,11 @@
       <div id="wrong-list-section">
         <h3>الأسئلة الخاطئة</h3>
         <div id="wrong-list"></div>
+      </div>
+      <div id="typo-list-section">
+        <h3>✏️ الأخطاء المطبعية المُعلَمة</h3>
+        <div id="typo-list"></div>
+        <button id="btn-export-typos" class="btn-small" style="display:none">📋 نسخ الأرقام</button>
       </div>
     </div>
 
