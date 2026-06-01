@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>استعداد التفتيش - اختبارات</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header id="header">
+      <h1>📚 استعداد التفتيش</h1>
+      <div id="stats-bar">
+        <span id="stat-seen" title="الأسئلة المجاب عنها">0/1022</span>
+        <span id="stat-correct" title="نسبة الصحة">0%</span>
+        <span id="stat-streak" title="السلسلة الحالية">🔥 0</span>
+      </div>
+      <div id="progress-bar-container">
+        <div id="progress-bar-fill"></div>
+      </div>
+    </header>
+
+    <!-- Main Quiz View (default) -->
+    <div id="view-quiz" class="view active">
+      <div id="quiz-card">
+        <div id="question-num"></div>
+        <div id="question-text"></div>
+        <div id="options-list"></div>
+      </div>
+      <div id="quiz-feedback" class="hidden">
+        <div id="feedback-icon"></div>
+        <div id="feedback-text"></div>
+        <button id="btn-next">السؤال التالي ←</button>
+      </div>
+      <div id="quiz-complete" class="hidden">
+        <div id="complete-emoji">🎉</div>
+        <div id="complete-title">أحسنت! أكملت كل الأسئلة</div>
+        <div id="complete-stats"></div>
+        <button id="btn-restart" class="btn-primary">إعادة من البداية</button>
+      </div>
+    </div>
+
+    <!-- Menu (overlay) -->
+    <div id="menu-overlay" class="hidden">
+      <div id="menu-panel">
+        <button id="btn-continue" class="menu-btn menu-btn-primary">
+          <span class="menu-icon">▶️</span>
+          <div class="menu-text">
+            <span class="menu-title">متابعة الأسئلة</span>
+            <span class="menu-desc" id="continue-desc">السؤال التالي: 1</span>
+          </div>
+        </button>
+        <button id="btn-weak" class="menu-btn">
+          <span class="menu-icon">🔁</span>
+          <div class="menu-text">
+            <span class="menu-title">مراجعة الأخطاء</span>
+            <span class="menu-desc" id="weak-desc">0 أسئلة خاطئة</span>
+          </div>
+        </button>
+        <button id="btn-reset-progress" class="menu-btn">
+          <span class="menu-icon">🔄</span>
+          <div class="menu-text">
+            <span class="menu-title">إعادة تعيين التقدم</span>
+            <span class="menu-desc">ابدأ من الصفر</span>
+          </div>
+        </button>
+        <button id="btn-stats" class="menu-btn">
+          <span class="menu-icon">📊</span>
+          <div class="menu-text">
+            <span class="menu-title">الإحصائيات</span>
+            <span class="menu-desc">تقدمي وتفاصيل</span>
+          </div>
+        </button>
+        <button id="btn-close-menu" class="btn-icon menu-close">✕</button>
+      </div>
+    </div>
+
+    <!-- Stats View -->
+    <div id="view-stats" class="view">
+      <button id="btn-back-stats" class="btn-icon">→</button>
+      <h2>📊 الإحصائيات</h2>
+      <div id="stats-overview">
+        <div class="progress-stat">
+          <span class="progress-label">الأسئلة المجاب عنها</span>
+          <span id="prog-seen" class="progress-value">0 / 1022</span>
+        </div>
+        <div class="progress-stat">
+          <span class="progress-label">نسبة الصحة</span>
+          <span id="prog-accuracy" class="progress-value">0%</span>
+        </div>
+        <div class="progress-stat">
+          <span class="progress-label">أطول سلسلة صحيحة</span>
+          <span id="prog-streak" class="progress-value">0</span>
+        </div>
+        <div class="progress-stat">
+          <span class="progress-label">الأسئلة الخاطئة</span>
+          <span id="prog-wrong" class="progress-value">0</span>
+        </div>
+      </div>
+      <div id="wrong-list-section">
+        <h3>الأسئلة الخاطئة</h3>
+        <div id="wrong-list"></div>
+      </div>
+    </div>
+
+    <!-- Floating menu button -->
+    <button id="btn-menu" class="fab">☰</button>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
