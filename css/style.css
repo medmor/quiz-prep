@@ -226,12 +226,14 @@ body {
 }
 
 .btn-typo {
+  display: block;
+  margin: 12px auto 0;
   background: none;
-  border: 2px solid var(--danger);
-  color: var(--danger);
-  border-radius: 10px;
-  padding: 10px 20px;
-  font-size: 0.85rem;
+  border: 1.5px solid var(--text-secondary);
+  color: var(--text-secondary);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
   font-family: inherit;
@@ -239,6 +241,8 @@ body {
 }
 
 .btn-typo:hover {
+  border-color: var(--danger);
+  color: var(--danger);
   background: var(--danger-light);
 }
 
@@ -247,7 +251,11 @@ body {
   color: #991B1B;
   border-color: #991B1B;
   opacity: 0.7;
-  cursor: default;
+  cursor: pointer;
+}
+
+.btn-typo.typped:hover {
+  opacity: 1;
 }
 
 #typo-list-section {
