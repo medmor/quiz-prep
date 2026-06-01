@@ -20,6 +20,7 @@
   let answered = false;
   let flaggedTypos = loadTypos();
   let typoJustFlagged = false;
+  const isAdmin = new URLSearchParams(window.location.search).get('user') === 'admin' && new URLSearchParams(window.location.search).get('pass') === 'admin';
 
   // --- Init ---
   async function init() {
@@ -286,9 +287,10 @@
     answered = false;
     typoJustFlagged = false;
 
-    // Reset typo button
+    // Show/hide typo button based on admin
     const typoBtn = document.getElementById('btn-typo');
     if (typoBtn) {
+      typoBtn.style.display = isAdmin ? 'block' : 'none';
       if (flaggedTypos.includes(currentQuestion.num)) {
         typoBtn.classList.add('typped');
         typoBtn.textContent = '✏️ تم التعليم';
@@ -408,6 +410,11 @@
     }
 
     // Typo list
+    const typoSection = document.getElementById('typo-list-section');
+    if (!isAdmin) {
+      typoSection.style.display = 'none';
+    } else {
+      typoSection.style.display = 'block';
     const typoList = document.getElementById('typo-list');
     const exportBtn = document.getElementById('btn-export-typos');
     typoList.innerHTML = '';
@@ -432,6 +439,7 @@
         });
       });
     }
+    } // end else isAdmin
 
     closeMenu();
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
