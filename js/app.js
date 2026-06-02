@@ -278,7 +278,7 @@
     optionKeys.forEach((key, i) => {
       const btn = document.createElement('button');
       btn.className = 'option-btn';
-      btn.innerHTML = `<span class="option-label">${labels[i]}.</span> ${currentQuestion.options[key]}`;
+      btn.innerHTML = `<span class="option-label" dir="rtl">${labels[i]}.</span> ${currentQuestion.options[key]}`;
       btn.dataset.key = key;
       btn.addEventListener('click', () => handleAnswer(key));
       optionsEl.appendChild(btn);
